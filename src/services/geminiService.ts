@@ -1,5 +1,7 @@
 import { ChatMessage, GroundingSource } from '../types';
 
+const API_URL = import.meta.env.VITE_API_URL || '';
+
 export interface HealthStatus {
   status: string;
   name: string;
@@ -9,7 +11,7 @@ export interface HealthStatus {
 
 export async function checkServerHealth(): Promise<HealthStatus> {
   try {
-    const res = await fetch('/api/health');
+    const res = await fetch(`${API_URL}/api/health`)
     if (!res.ok) throw new Error(`Health check failed: ${res.status}`);
     return await res.json();
   } catch (err: any) {
@@ -42,7 +44,7 @@ export async function streamChatResponse({
   signal?: AbortSignal;
 }): Promise<void> {
   try {
-    const response = await fetch('/api/chat', {
+    const response = await fetch(`${API_URL}/api/chat`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -123,7 +125,7 @@ export async function requestGeminiTTS(
   voice: string = 'Kore'
 ): Promise<{ audio: string; sampleRate: number } | null> {
   try {
-    const response = await fetch('/api/tts', {
+    const response = await fetch(`${API_URL}/api/tts`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ text, voice }),
@@ -149,7 +151,7 @@ export async function transcribeAudioBlob(blob: Blob): Promise<string> {
     reader.onloadend = async () => {
       try {
         const base64Data = (reader.result as string).split(',')[1];
-        const res = await fetch('/api/transcribe', {
+        const res = await fetch(`${API_URL}/api/transcribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({

@@ -69,9 +69,10 @@ export class LiveVoiceSession {
   public async start(): Promise<boolean> {
     try {
       // 1. Establish WebSocket connection to backend /api/live
-      const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
-      const wsUrl = `${protocol}//${window.location.host}/api/live`;
+      const API_URL = import.meta.env.VITE_API_URL || '';
 
+         const wsBase = API_URL.replace(/^http/, 'ws');
+         const wsUrl = `${wsBase}/api/live`;
       this.callbacks.onStateChange('thinking');
 
       await new Promise<void>((resolve, reject) => {

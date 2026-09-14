@@ -1,4 +1,5 @@
 import express, { Request, Response } from "express";
+import cors from "cors";
 import http from "http";
 import path from "path";
 import dotenv from "dotenv";
@@ -11,6 +12,14 @@ dotenv.config();
 const app = express();
 const PORT = 3000;
 
+app.use(cors({
+  origin: [
+    "https://evalynthiya.vercel.app",
+    "http://localhost:5173",
+    "http://localhost:3000",
+  ],
+  credentials: true,
+}));
 app.use(express.json({ limit: "25mb" }));
 
 // Lazy initialization of Gemini client
