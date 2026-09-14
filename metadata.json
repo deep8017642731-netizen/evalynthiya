@@ -1,0 +1,6 @@
+{
+  "name": "EVALYNTHIYA",
+  "description": "A fast, reliable, voice-first AI assistant companion with natural two-way conversation in English, Bengali, and Hindi.",
+  "requestFramePermissions": ["microphone"],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
